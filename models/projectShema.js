@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const projectSchema = new mongoose.Schema({
+    user : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Users'
+    },
     title: {
         type: String,
         required: true,
@@ -36,6 +40,6 @@ const projectSchema = new mongoose.Schema({
     },
 });
 
-const Project = mongoose.model('Project', projectSchema);
+const projectModel = mongoose.model('Project', projectSchema);
 
-module.exports = Project;
+module.exports = projectModel;

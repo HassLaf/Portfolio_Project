@@ -3,11 +3,12 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 const helmet = require('helmet');
+const router = require('./api/routes');
 
 app = express();
 app.use(helmet());
 app.use(express.json());
-
+app.use('/', router);
 
 const http = require('http');
 
