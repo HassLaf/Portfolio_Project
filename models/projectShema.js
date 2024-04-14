@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const projectSchema = new mongoose.Schema({
-    user : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'Users'
-    },
+    // user : {
+    //     type : mongoose.Schema.Types.ObjectId,
+    //     ref : 'Users'
+    // },
     title: {
         type: String,
         required: true,
@@ -19,7 +19,7 @@ const projectSchema = new mongoose.Schema({
         required: true
     },
     period: {
-        type: String,
+        type: Number,
         required: true
     },
     thumbnail: {

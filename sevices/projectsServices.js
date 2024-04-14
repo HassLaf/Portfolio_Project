@@ -7,7 +7,7 @@ async function createProject(title, shortDescription, description, period, thumb
         if (project) {
             throw new Error('Project already exists');
         }
-        const newProject = new projectModel({ title, shortDescription, description, period, thumbnail, ImagesList, Tags });
+        const newProject = new projectModel({ title:title, shortDescription:shortDescription, description:description, period:period, thumbnail:thumbnail, ImagesList:ImagesList, Tags:Tags });
         
         // Sauvegarde du projet dans la base de données
         await newProject.save();

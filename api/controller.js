@@ -1,4 +1,5 @@
 const { createUser } = require("../sevices/userServices")
+const { createProject } = require("../sevices/projectsServices")
 
 addUser = async function addUser(req, res) {
     console.log("Controller addUser")
@@ -14,6 +15,20 @@ addUser = async function addUser(req, res) {
     }
 }
 
+addProject = async function addProject(req, res) {
+    console.log("Controller addProject")
+    
+    const { title, shortDescription, description, period, thumbnail, ImagesList, Tags } = req.body;
+    
+    try{
+        newProject = await createProject(title, shortDescription, description, period, thumbnail, ImagesList, Tags);
+        res.status(200).json(newProject);
+    }  catch (error) {
+        console.error('Error adding project:', error);
+        res.status(500).json({ error: 'Server Error' });
+    }
+}
+
     
 getAllProjects = function getAllProjects(req, res) {
     res.status(200).send("Bonjour, vous êtes dans le portfolio de Hassan !")
@@ -21,5 +36,6 @@ getAllProjects = function getAllProjects(req, res) {
 
 module.exports = {
     getAllProjects,
-    addUser
+    addUser,
+    addProject
 }

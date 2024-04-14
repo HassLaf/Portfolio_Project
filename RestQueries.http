@@ -7,3 +7,18 @@ Content-Type: application/json
     "password": "1234",
     "role": "user"
 }
+
+###
+
+POST http://localhost:3510/addProject
+Content-Type: application/json
+
+{
+    "title": "Project 1",
+    "shortDescription": "This is project 1",
+    "description": "This is project 1",
+    "period" : 4,
+    "thumbnail": "https://www.google.com",
+    "ImagesList": ["https://www.google.com", "https://www.google.com"],
+    "Tags": ["tag1", "tag2"]
+}
