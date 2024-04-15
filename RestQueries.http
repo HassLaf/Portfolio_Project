@@ -1,30 +1,23 @@
-POST http://localhost:3510/addUser
+@baseUrl = http://localhost:3510
+
+# GET {{baseUrl}}
+
+###
+
+POST {{baseUrl}}/addUser
 Content-Type: application/json
 
 {
-    "username": "Hassan2",
-    "email": "hassan2@gmail.com",
+    "username": "Hassan3",
+    "email": "hassan3@gmail.com",
     "password": "1234",
-    "role": "user"
+    "role": "admin"
 }
 
 ###
-
-POST http://localhost:3510/addProject
-Content-Type: application/json
-
-{
-    "title": "Project 1",
-    "shortDescription": "This is project 1",
-    "description": "This is project 1",
-    "period" : 4,
-    "thumbnail": "https://www.google.com",
-    "ImagesList": ["https://www.google.com", "https://www.google.com"],
-    "Tags": ["tag1", "tag2"]
-}
-###
-
-POST http://localhost:3510/login
+# Login
+# @name TokenJWT
+POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
@@ -32,21 +25,32 @@ Content-Type: application/json
     "password": "1234"
 }
 
-
-# @baseUrl = "http://localhost:3510/login"
-# # Login
-# # @name tokenAPI
-# POST {{baseUrl}}/Auth/login HTTP/1.1
-# Content-Type: application/json
-
 # {
-#     "Username": "Hassan2",
-#     "Password": "1234"
+#     "email": "hassan2@gmail.com",
+#     "password": "1234"
 # }
-# ###
 
-# @authToken = {{tokenAPI.response.body.token}}
-# # Get User
-# # @name getUser
-# GET {{baseUrl}}/User
-# Authorization: Bearer {{authToken}}
+
+###
+@authToken = {{TokenJWT.response.body.accessToken}}
+POST {{baseUrl}}/addProject
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "title": "Project 6",
+    "shortDescription": "This is project 6",
+    "description": "This is project 6",
+    "period" : 5,
+    "thumbnail": "https://www.google.com",
+    "ImagesList": ["https://www.google.com", "https://www.google.com"],
+    "Tags": ["tag1", "tag2", "tag3"]
+}
+
+
+###
+@authToken = {{TokenJWT.response.body.accessToken}}
+# Get List
+# @name showProjectList
+GET {{baseUrl}}
+Authorization: Bearer {{authToken}}

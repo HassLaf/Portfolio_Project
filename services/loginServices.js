@@ -15,8 +15,6 @@ async function loginFunction(uEmail, uPassword) {
             console.log('Utilisateur non trouvé');
             return { error: 'Utilisateur non trouvé' };
         }
-        console.log(uPassword)
-        console.log(userData.password)
         const match = await bcrypt.compare(uPassword, userData.password);
 
         if(match){

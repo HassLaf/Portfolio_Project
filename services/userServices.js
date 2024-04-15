@@ -22,6 +22,19 @@ async function createUser(username, email, password, role) {
     }
 }
 
+async function verifyAdmin(idUser){
+    try {
+        const user = await userModels.findOne({ _id : idUser });
+        if (user.role === 'admin') {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        throw new Error('Error verifying user: ' + error.message);
+    }
+}
 module.exports = {
-    createUser
+    createUser,
+    verifyAdmin
 };

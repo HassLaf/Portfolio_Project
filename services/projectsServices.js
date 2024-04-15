@@ -21,7 +21,15 @@ async function createProject(title, shortDescription, description, period, thumb
 }
 
 
-
+async function getProject() {
+    try {
+        const project = await projectModel.find();
+        return project;
+    } catch (error) {
+        throw new Error('Error getting project: ' + error.message);
+    }
+}
 module.exports = {
-    createProject
+    createProject,
+    getProject
 }
