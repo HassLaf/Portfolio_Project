@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
 const projectSchema = new mongoose.Schema({
-    // user : {
-    //     type : mongoose.Schema.Types.ObjectId,
-    //     ref : 'Users'
-    // },
+    projectID: {
+        type: Number,
+        required: true,
+        unique: true
+    },
     title: {
         type: String,
         required: true,
-        unique: true
     },
     shortDescription: {
         type: String,

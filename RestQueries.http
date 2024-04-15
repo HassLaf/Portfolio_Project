@@ -21,7 +21,7 @@ POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-    "email": "hassan2@gmail.com",
+    "email": "hassan3@gmail.com",
     "password": "1234"
 }
 
@@ -38,6 +38,24 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
+    "projectID": 1,
+    "title": "Project 8",
+    "shortDescription": "This is project 6",
+    "description": "This is project 6",
+    "period" : 5,
+    "thumbnail": "https://www.google.com",
+    "ImagesList": ["https://www.google.com", "https://www.google.com"],
+    "Tags": ["tag1", "tag2", "tag3"]
+}
+
+###
+@authToken = {{TokenJWT.response.body.accessToken}}
+POST {{baseUrl}}/addProject
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "projectID": 2,
     "title": "Project 6",
     "shortDescription": "This is project 6",
     "description": "This is project 6",
@@ -52,5 +70,27 @@ Authorization: Bearer {{authToken}}
 @authToken = {{TokenJWT.response.body.accessToken}}
 # Get List
 # @name showProjectList
-GET {{baseUrl}}
+GET {{baseUrl}}/projects
 Authorization: Bearer {{authToken}}
+
+
+###
+GET {{baseUrl}}/projects/2
+Content-Type: application/json
+
+###
+@authToken = {{TokenJWT.response.body.accessToken}}
+POST {{baseUrl}}/projects/2/manageProject
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "title": "Modified Project 3",
+    "shortDescription": "This is Modified project 3",
+    "description": "This is project 3",
+    "period" : 5,
+    "thumbnail": "https://www.google.com",
+    "ImagesList": ["https://www.google.com", "https://www.google.com"],
+    "Tags": ["tag1", "tag2", "tag3"]
+}
+
