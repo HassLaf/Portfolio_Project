@@ -1,11 +1,10 @@
 // login.js
 const userBase = require('../models/userShema');
-const authService = require('./authService');
+const authService = require('./authServices');
 const bcrypt = require('bcrypt');
 
 
-
-async function login(uEmail, password) {
+async function loginFunction(uEmail, uPassword) {
     try {
         console.log("Recherche du Nom dans la base de données ...");
 
@@ -16,10 +15,11 @@ async function login(uEmail, password) {
             console.log('Utilisateur non trouvé');
             return { error: 'Utilisateur non trouvé' };
         }
+        console.log(uPassword)
+        console.log(userData.password)
+        const match = await bcrypt.compare(uPassword, userData.password);
 
-        const result = await bcrypt.compare(password, userData.Hashedpassword);
-
-        if(result){
+        if(match){
             const userData = await userBase.findOne({ email : uEmail },'name email');
             const accessToken = authService.generateAccessToken(userData.toObject());
             const refreshAcessToken = authService.generateRefreshToken(userData.toObject());
@@ -59,6 +59,6 @@ refresh = async function refresh(refreshToken){
 }
 
 module.exports = {
-    login,
+    loginFunction,
     refresh
 };

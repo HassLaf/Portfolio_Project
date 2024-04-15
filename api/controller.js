@@ -1,5 +1,22 @@
-const { createUser } = require("../sevices/userServices")
-const { createProject } = require("../sevices/projectsServices")
+const { createUser } = require("../services/userServices")
+const { createProject } = require("../services/projectsServices")
+const { loginFunction } = require("../services/loginServices")
+
+
+loginUser = async function loginUser(req, res) {
+    console.log("Controller loginUser")
+    
+    const { email, password } = req.body;
+    console.log(email)
+    console.log(password)
+    try{
+        const userTokens = await loginFunction(email, password);
+        res.status(200).json(userTokens);
+    }  catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).json({ error: 'Server Error' });
+    }
+}
 
 addUser = async function addUser(req, res) {
     console.log("Controller addUser")
@@ -37,5 +54,6 @@ getAllProjects = function getAllProjects(req, res) {
 module.exports = {
     getAllProjects,
     addUser,
-    addProject
+    addProject,
+    loginUser
 }
