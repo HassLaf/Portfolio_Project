@@ -5,7 +5,8 @@ const autRequest = require('../services/authServices.js')
 
 router.get('/projects', controller.getAllProjects);
 router.get('/projects/:projectID', controller.getProjectById);
-router.post('/projects/:projectID/manageProject',autRequest.authenticateToken, controller.modifyProject);
+router.delete('/projects/:projectID', controller.deleteProject);
+router.put('/projects/:projectID/manageProject', controller.modifyProject);
 router.post('/login', controller.loginUser);
 router.post('/addUser', controller.addUser);
 router.post('/addProject',autRequest.authenticateToken, controller.addProject);

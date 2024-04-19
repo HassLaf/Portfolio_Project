@@ -30,6 +30,11 @@ Content-Type: application/json
 #     "password": "1234"
 # }
 
+###
+@authToken = {{TokenJWT.response.body.accessToken}}
+DELETE  {{baseUrl}}/projects/2
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 ###
 @authToken = {{TokenJWT.response.body.accessToken}}
@@ -38,10 +43,10 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-    "projectID": 1,
-    "title": "Project 8",
-    "shortDescription": "This is project 6",
-    "description": "This is project 6",
+    "projectID": 6,
+    "title": "Grandmaster's Gambit: The Ultimate Chess Experience",
+    "shortDescription": "Grandmaster's Gambit is an immersive and feature-rich chess game project aimed at providing players with the ultimate chess experience. Whether you're a beginner learning the basics or a seasoned grandmaster looking for a challenge, this game has something for everyone",
+    "description": "Grandmaster's Gambit is an immersive and feature-rich chess game project aimed at providing players with the ultimate chess experience. Whether you're a beginner learning the basics or a seasoned grandmaster looking for a challenge, this game has something for everyone",
     "period" : 5,
     "thumbnail": "https://www.google.com",
     "ImagesList": ["https://www.google.com", "https://www.google.com"],
@@ -67,11 +72,11 @@ Authorization: Bearer {{authToken}}
 
 
 ###
-@authToken = {{TokenJWT.response.body.accessToken}}
+//@authToken = {{TokenJWT.response.body.accessToken}}
 # Get List
 # @name showProjectList
 GET {{baseUrl}}/projects
-Authorization: Bearer {{authToken}}
+//Authorization: Bearer {{authToken}}
 
 
 ###
@@ -79,15 +84,14 @@ GET {{baseUrl}}/projects/2
 Content-Type: application/json
 
 ###
-@authToken = {{TokenJWT.response.body.accessToken}}
-POST {{baseUrl}}/projects/2/manageProject
+//@authToken = {{TokenJWT.response.body.accessToken}}
+PUT {{baseUrl}}/projects/12/manageProject
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-    "title": "Modified Project 3",
-    "shortDescription": "This is Modified project 3",
-    "description": "This is project 3",
+    "title": "nHAAAAASAAAN",
+    "description": "HASSAAAAAN",
     "period" : 5,
     "thumbnail": "https://www.google.com",
     "ImagesList": ["https://www.google.com", "https://www.google.com"],

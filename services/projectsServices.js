@@ -43,44 +43,71 @@ async function getAllProjects() {
 }
 
 
-async function manageProject(projectID,title, shortDescription, description, period, thumbnail, ImagesList, Tags) {
+async function manageProject(projectID, title, shortDescription, description, period, thumbnail, ImagesList, Tags) {
     try {
-        const project = await projectModel.findOne({ projectID: projectID });
-        if (!project) {
-            throw new Error('Project not found');
-        }
+        // Construire l'objet contenant les champs à mettre à jour
+        const updateFields = {};
         if (title) {
-            project.title = title;
+            updateFields.title = title;
         }
         if (shortDescription) {
-            project.shortDescription = shortDescription;
+            updateFields.shortDescription = shortDescription;
         }
         if (description) {
-            project.description = description;
+            updateFields.description = description;
         }
         if (period) {
-            project.period = period;
+            updateFields.period = period;
         }
         if (thumbnail) {
-            project.thumbnail = thumbnail;
+            updateFields.thumbnail = thumbnail;
         }
         if (ImagesList) {
-            project.ImagesList = ImagesList;
+            updateFields.ImagesList = ImagesList;
         }
         if (Tags) {
-            project.Tags = Tags;
+            updateFields.Tags = Tags;
         }
-        await project.save();
-        console.log('Project' + projectID + 'modified' );
-        return project;
+        
+        // Rechercher et mettre à jour le projet en utilisant findOneAndUpdate
+        const updatedProject = await projectModel.findOneAndUpdate(
+            { projectID: projectID }, // Critère de recherche
+            updateFields, // Champs à mettre à jour
+            { new: true } // Pour renvoyer le document mis à jour
+        );
+        console.log(updatedProject)
+        if (!updatedProject) {
+            throw new Error('Project not found');
+        }
+
+        console.log('Project ' + projectID + ' modified');
+        return updatedProject;
     } catch (error) {
-        throw new Error('Error getting project: ' + error.message);
+        throw new Error('Error updating project: ' + error.message);
     }
 }
 
+
+async function deleteProject(projectID) {
+    try {
+        // Recherche du projet avec l'ID spécifié et suppression
+        const deletedProject = await projectModel.findOneAndDelete({ projectID: projectID });
+
+        // Vérification si le projet a été trouvé et supprimé
+        if (!deletedProject) {
+            throw new Error('Project not found');
+        }
+
+        console.log('Project ' + projectID + ' deleted');
+        return true;
+    } catch (error) {
+        throw new Error('Error deleting project: ' + error.message);
+    }
+}
 module.exports = {
     createProject,
     getProject,
     getAllProjects,
-    manageProject
+    manageProject,
+    deleteProject
 }

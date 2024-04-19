@@ -1,6 +1,7 @@
 const userServices = require("../services/userServices")
 const projectsServices = require("../services/projectsServices")
 const loginServices  = require("../services/loginServices")
+const { verify } = require("jsonwebtoken")
 
 
 getProjectById = async function getProjectById(req, res) {
@@ -27,13 +28,16 @@ getAllProjects = async function getAllProjects(req, res) {
 
 modifyProject = async function modifyProject(req, res) {
     console.log("Controller modifyProject")
-    idUser = req.user._id
+    //idUser = req.user._id
     const {projectID} = req.params
-    console.log(projectID)
-    roleVerify = await userServices.verifyAdmin(idUser)
+    console.log("projectID :" + projectID);
+    //console.log(projectID)
+    //roleVerify = await userServices.verifyAdmin(idUser)
+    const roleVerify = true
     console.log(roleVerify)
     if(roleVerify){
         const {title, shortDescription, description, period, thumbnail, ImagesList, Tags } = req.body;
+        console.log(title, shortDescription, description, period, thumbnail, ImagesList, Tags)
         try{
             newProject = await projectsServices.manageProject(projectID,title, shortDescription, description, period, thumbnail, ImagesList, Tags);
             res.status(200).json(newProject);
@@ -49,17 +53,17 @@ modifyProject = async function modifyProject(req, res) {
 
 loginUser = async function loginUser(req, res) {
     console.log("Controller loginUser")
-    
+    console.log(req.body)
     const { email, password } = req.body;
-
-    try{
-        const userTokens = await loginServices.loginFunction(email, password);
-        res.status(200).json(userTokens);
-    }  catch (error) {
+    console.log(email, password);
+    try {
+        const { uEmail, accessToken, refreshAcessToken } = await loginServices.loginFunction(email, password);
+        res.status(200).json({ email: uEmail, accessToken, refreshAcessToken });
+    } catch (error) {
         console.error('Error during login:', error);
         res.status(500).json({ error: 'Server Error' });
     }
-}
+};
 
 addUser = async function addUser(req, res) {
     console.log("Controller addUser")
@@ -95,6 +99,26 @@ addProject = async function addProject(req, res) {
     }
 }
 
+deleteProject = async function deleteProject(req, res) {
+    console.log("Controller deleteProject")
+    const { projectID } = req.params;
+    console.log(projectID)
+    //roleVerify = await userServices.verifyAdmin(projectID)
+    const roleVerify = true
+    console.log(roleVerify)
+    if(roleVerify){
+        try{
+            newProject = await projectsServices.deleteProject(projectID);
+            res.status(200).json(newProject);
+        }  catch (error) {
+            console.error('Error deleting project:', error);
+            res.status(500).json({ error: 'Server Error' });
+        }
+    } else {
+        res.status(403).json({ error: 'Admin role required !' });
+    }
+}
+
 
 module.exports = {
     getAllProjects,
@@ -102,5 +126,7 @@ module.exports = {
     addUser,
     addProject,
     loginUser,
-    modifyProject
+    modifyProject,
+    deleteProject
+    
 }

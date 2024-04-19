@@ -18,10 +18,10 @@ async function loginFunction(uEmail, uPassword) {
         const match = await bcrypt.compare(uPassword, userData.password);
 
         if(match){
-            const userData = await userBase.findOne({ email : uEmail },'name email');
-            const accessToken = authService.generateAccessToken(userData.toObject());
-            const refreshAcessToken = authService.generateRefreshToken(userData.toObject());
-            return { accessToken,refreshAcessToken };
+            const founduserData = await userBase.findOne({ email : uEmail },'name email');
+            const accessToken = authService.generateAccessToken(founduserData.toObject());
+            const refreshAcessToken = authService.generateRefreshToken(founduserData.toObject());
+            return {uEmail,accessToken,refreshAcessToken };
         } else {
             return { error: 'Coordonnées incorrectes' };
         }
